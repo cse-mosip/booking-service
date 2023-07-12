@@ -50,5 +50,36 @@ class ResourcesTest {
         verify(resourceService, times(1)).findAllResources();
     }
 
+    @Test
+    void findResource_ValidId_ReturnsResource() {
+        // Arrange
+        int resourceId = 1;
+        Resource expectedResource = new Resource(resourceId, "Resource 1", 1);
+        when(resourceService.findResource(resourceId)).thenReturn(expectedResource);
+
+        // Act
+        ResponseEntity<Map<String, Object>> response = resources.findResource(resourceId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResource, response.getBody());
+        verify(resourceService, times(1)).findResource(resourceId);
+    }
+
+    @Test
+    void createResource_ValidResourceDTO_ReturnsCreatedResource() {
+        // Arrange
+        ResourceDTO resourceDTO = new ResourceDTO("Resource 1", 1);
+        Resource expectedResource = new Resource(1, "Resource 1", 1);
+        when(resourceService.createResource(resourceDTO)).thenReturn(expectedResource);
+
+        // Act
+        ResponseEntity<Map<String, Object>> response = resources.createResource(resourceDTO);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(expectedResource, response.getBody());
+        verify(resourceService, times(1)).createResource(resourceDTO);
+    }
 
 }
