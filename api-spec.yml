@@ -11,6 +11,8 @@ tags:
     description: Resource that can be booked
   - name: booking
     description: Booking of a specific resource
+  - name: auth
+    description: Authentication to the booking system
 paths:
   /resource:
     get:
@@ -80,6 +82,152 @@ paths:
       responses:
         "404":
           description: No such resource
+  /bookings:
+    get:
+      tags:
+        - booking
+      summary: Get all bookings
+      operationId: getAllBookings
+      responses:
+        "200":
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bookings"
+    post:
+      tags:
+        - booking
+      summary: Add a new booking
+      operationId: bookResource
+      requestBody:
+        $ref: "#/components/requestBodies/NewBooking"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+  /bookings/{id}:
+    get:
+      tags:
+        - booking
+      summary: Find booking by ID
+      description: Returns a single booking
+      operationId: getBookingById
+      parameters:
+        - name: id
+          in: path
+          description: ID of booking to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "404":
+          description: Booking not found
+    delete:
+      tags:
+        - booking
+      summary: Delete a booking
+      description: delete a booking
+      operationId: deleteBooking
+      parameters:
+        - name: id
+          in: path
+          description: Booking id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "404":
+          description: No such booking
+  /bookings/{id}/status:
+    get:
+      tags:
+        - booking
+      summary: Update if the booked person arrived
+      description: Updates the status of the booking
+      operationId: updateBookingStatus
+      parameters:
+        - name: id
+          in: path
+          description: ID of booking to update status
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "404":
+          description: Booking not found
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login to booking system
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: john
+                password:
+                  type: string
+                  example: john123
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        "401":
+          description: Invalid credentials
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logout from booking system
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: john
+                token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      responses:
+        "200":
+          description: Successful operation
+        "401":
+          description: Invalid credentials
 
 components:
   schemas:
@@ -105,6 +253,51 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Resource"
+    Booking:
+      required:
+        - id
+        - resourceId
+        - userId
+        - reason
+        - count
+        - startDateTime
+        - endDateTime
+        - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12
+        resourceId:
+          type: integer
+          format: int64
+          example: 14
+        userId:
+          type: integer
+          format: int64
+          example: 168
+        reason:
+          type: string
+          description: Reason for the booking
+          example: HCI Lecture
+        count:
+          type: integer
+          description: Number of instances of the resource booked
+          example: 40
+        startDateTime:
+          type: string
+          example: "2023-07-11T08:00:00"
+        endDateTime:
+          type: string
+          example: "2023-07-11T10:00:00"
+        status:
+          type: string
+          example: "NOT USING"
+    Bookings:
+      type: array
+      items:
+        $ref: "#/components/schemas/Booking"
 
   requestBodies:
     NewResource:
@@ -124,3 +317,39 @@ components:
               count:
                 type: integer
                 example: 40
+    NewBooking:
+      required: true
+      description: New booking details
+      content:
+        application/json:
+          schema:
+            required:
+              - userId
+              - resourceId
+              - reason
+              - count
+              - startDateTime
+              - endDateTime
+            type: object
+            properties:
+              userId:
+                type: integer
+                format: int64
+                example: 122
+              resourceId:
+                type: integer
+                format: int64
+                example: 152
+              reason:
+                type: string
+                example: HCI lecture
+              count:
+                type: integer
+                example: 40
+              startDateTime:
+                type: string
+                example: "2023-07-11T08:00:00"
+              endDateTime:
+                type: string
+                example: "2023-07-11T10:00:00"
+
