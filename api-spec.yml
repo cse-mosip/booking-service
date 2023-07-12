@@ -151,7 +151,7 @@ paths:
         "404":
           description: No such booking
   /bookings/{id}/status:
-    get:
+    patch:
       tags:
         - booking
       summary: Update if the booked person arrived
@@ -257,7 +257,7 @@ components:
       required:
         - id
         - resourceId
-        - userId
+        - username
         - reason
         - count
         - startDateTime
@@ -273,7 +273,7 @@ components:
           type: integer
           format: int64
           example: 14
-        userId:
+        username:
           type: integer
           format: int64
           example: 168
@@ -324,7 +324,7 @@ components:
         application/json:
           schema:
             required:
-              - userId
+              - username
               - resourceId
               - reason
               - count
@@ -332,7 +332,7 @@ components:
               - endDateTime
             type: object
             properties:
-              userId:
+              username:
                 type: integer
                 format: int64
                 example: 122
