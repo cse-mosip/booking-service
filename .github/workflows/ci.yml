@@ -2,9 +2,6 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - ci/initial
 
 jobs:
   build:
@@ -44,3 +41,4 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/cse-mosip/booking-service:latest
+        if: github.ref == 'refs/heads/main'
