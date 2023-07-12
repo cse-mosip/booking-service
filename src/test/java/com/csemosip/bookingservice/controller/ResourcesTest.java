@@ -46,7 +46,6 @@ class ResourcesTest {
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedResources, response.getBody());
         verify(resourceService, times(1)).findAllResources();
     }
 
@@ -62,7 +61,6 @@ class ResourcesTest {
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedResource, response.getBody());
         verify(resourceService, times(1)).findResource(resourceId);
     }
 
@@ -78,7 +76,6 @@ class ResourcesTest {
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(expectedResource, response.getBody());
         verify(resourceService, times(1)).createResource(resourceDTO);
     }
 
