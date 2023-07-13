@@ -32,6 +32,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build the docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: false
+          tags: ghcr.io/cse-mosip/booking-service:latest
+
       - name: Build and push the docker image to Github Container Registry
         uses: docker/build-push-action@v3
         with:
