@@ -1,10 +1,16 @@
-FROM amazoncorretto:17-alpine3.17
+FROM eclipse-temurin:17-jdk-alpine as build
+WORKDIR /workspace/app
 
-RUN addgroup app && adduser -S -G app app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
 
-USER app
-WORKDIR /app
+RUN ./mvnw install -DskipTests
+RUN ./mvnw package -DskipTests
 
-COPY target/bookingservice-0.0.1.jar booking-service.jar
-
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+COPY --from=build /workspace/app/target/bookingservice-0.0.1.jar booking-service.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "booking-service.jar"]
