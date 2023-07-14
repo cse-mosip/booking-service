@@ -86,8 +86,23 @@ paths:
     get:
       tags:
         - booking
-      summary: Get all bookings
+      summary: Get bookings
+      description: |
+        This endpoint can be used to 
+          - get all the bookings for all the resources at once
+          - get bookings for a specific resource on a specific date
       operationId: getAllBookings
+      parameters:
+        - name: resource_id
+          in: query
+          schema:
+            type: integer
+          required: false
+        - name: date
+          in: query
+          schema:
+            type: string
+          required: false
       responses:
         "200":
           description: List of bookings
