@@ -44,4 +44,10 @@ public class BookingService implements BookingServiceImpl {
     public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate) {
         return bookingRepository.findByResource_IdAndBookedDate(resourceId, bookedDate);
     }
+
+    @Override
+    public Booking updateBooking(Booking booking) {
+        return bookingRepository.save(booking);
+    }
+
 }

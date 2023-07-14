@@ -26,4 +26,8 @@ public class BookingDTO {
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
+    @Column(name = "status")
+    private String status;
+
 }

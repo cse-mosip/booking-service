@@ -45,4 +45,21 @@ public class Bookings extends AbstractController {
         List<Booking> bookings = bookingService.findBookingsByResourceIdAndDate(resourceId, bookedDate);
         return ResponseEntity.ok(bookings);
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Map<String, Object>> updateBookingStatus(
+            @PathVariable("id") Integer id,
+            @RequestBody Map<String, String> statusMap
+    ) {
+        String status = statusMap.get("status");
+        Booking booking = bookingService.findBookedResourcesById(id);
+        if (booking == null) {
+            return sendBadRequestResponse("Booking not found");
+        }
+        booking.setStatus(status);
+        Booking updatedBooking = bookingService.updateBooking(booking);
+        return sendSuccessResponse(updatedBooking, HttpStatus.OK);
+    }
+
+
 }
