@@ -16,4 +16,11 @@ public class GlobalExceptionHandler {
         error.put("message", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(BookingNotFoundException.class)
+    public ResponseEntity<Object> handleCityNotFoundException(BookingNotFoundException ex) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 }
