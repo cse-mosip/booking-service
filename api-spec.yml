@@ -169,9 +169,18 @@ paths:
     patch:
       tags:
         - booking
-      summary: Update if the booked person arrived
+      summary: Update the status of the booking
       description: Updates the status of the booking
       operationId: updateBookingStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: "APPROVED"
       parameters:
         - name: id
           in: path
@@ -308,7 +317,7 @@ components:
           example: "2023-07-11T10:00:00"
         status:
           type: string
-          example: "NOT USING"
+          example: "APPROVED"
     Bookings:
       type: array
       items:
