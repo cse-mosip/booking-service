@@ -2,13 +2,14 @@ package com.csemosip.bookingservice.controller;
 
 import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.model.Booking;
-import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.service.Impl.BookingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -34,5 +35,14 @@ public class Bookings extends AbstractController {
     public ResponseEntity<Map<String, Object>> createBooking(@RequestBody BookingDTO bookingDTO) {
         Booking booking = bookingService.createBooking(bookingDTO);
         return sendSuccessResponse(booking, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{resourceId}/{bookedDate}")
+    public ResponseEntity<List<Booking>> findBookingsByResourceIdAndDate(
+            @PathVariable("resourceId") Long resourceId,
+            @PathVariable("bookedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate bookedDate
+    ) {
+        List<Booking> bookings = bookingService.findBookingsByResourceIdAndDate(resourceId, bookedDate);
+        return ResponseEntity.ok(bookings);
     }
 }

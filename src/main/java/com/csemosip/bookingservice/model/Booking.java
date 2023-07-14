@@ -18,8 +18,8 @@ public class Booking {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
-    @Column(name = "resource_id")
+    @JoinColumn(name = "resource_id")
+//    @Column(name = "resource_id")
     private Resource resource;
 
     @Column(name = "user_id")
