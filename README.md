@@ -2,15 +2,15 @@
 
 ## Running
 
-### Pre-requisites
+### Prerequisites
 
 - Java 17
-- Postgresql 15
+- PostgreSQL 15
 - Docker (if running Docker image)
 
 ### Steps for Docker
 
-1. Start postgresql server and create a database
+1. Start PostgreSQL server and create a database
 2. Build docker image
     ```shell
     docker build -t cse-mosip/bookingservice .
@@ -26,7 +26,7 @@
 
 ### Steps for running manually
 
-1. Start postgresql server and create a database
+1. Start PostgreSQL server and create a database
 2. Create a [profile-specific configuration file](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config.files.profile-specific), e.g. `src/main/resources/application-local.yaml` (modify values as necessary)
    ```yaml
    spring:
