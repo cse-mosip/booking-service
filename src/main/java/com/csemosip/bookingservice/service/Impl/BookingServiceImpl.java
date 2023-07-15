@@ -15,6 +15,6 @@ public interface BookingServiceImpl {
 
     List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate);
 
-    Booking updateBooking(Booking booking);
+    Booking updateBookingStatus(Booking booking, String status);
 
 }

@@ -46,7 +46,11 @@ public class BookingService implements BookingServiceImpl {
     }
 
     @Override
-    public Booking updateBooking(Booking booking) {
+    public Booking updateBookingStatus(Booking booking, String status) {
+        if(booking==null){
+            throw new BookingNotFoundException("Booking Not Found");
+        }
+        booking.setStatus(status);
         return bookingRepository.save(booking);
     }
 

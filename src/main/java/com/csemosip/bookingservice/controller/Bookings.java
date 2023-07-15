@@ -53,13 +53,8 @@ public class Bookings extends AbstractController {
     ) {
         String status = statusMap.get("status");
         Booking booking = bookingService.findBookedResourcesById(id);
-        if (booking == null) {
-            return sendBadRequestResponse("Booking not found");
-        }
-        booking.setStatus(status);
-        Booking updatedBooking = bookingService.updateBooking(booking);
+        Booking updatedBooking = bookingService.updateBookingStatus(booking, status);
         return sendSuccessResponse(updatedBooking, HttpStatus.OK);
     }
-
 
 }
