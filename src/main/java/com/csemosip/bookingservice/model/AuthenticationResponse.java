@@ -1,4 +1,4 @@
-package com.csemosip.bookingservice.dto;
+package com.csemosip.bookingservice.model;
 
 import lombok.Data;
 
