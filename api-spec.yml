@@ -82,6 +82,49 @@ paths:
       responses:
         "404":
           description: No such resource
+  /resources/{id}/available:
+    get:
+      tags:
+        - resource
+      summary: Get available number of instances of the resource
+      description: Returns the number of available instances of the resource in the given timeslot
+      operationId: getAvailableCountByResourceIdAndTimeslot
+      parameters:
+        - name: id
+          in: path
+          description: ID of resource
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: timeslot
+          in: query
+          description: timeslot
+          required: true
+          schema:
+            type: string
+            example: 20230714T10:00-2023-0714T11:00
+      responses:
+        "200":
+          description: successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        example: "2023-07-15T09:00"
+                      end:
+                        type: string
+                        example: "2023-07-15T10:00"
+                      available:
+                        type: integer
+                        example: 10
+        "404":
+          description: Resource not found
   /bookings:
     get:
       tags:
