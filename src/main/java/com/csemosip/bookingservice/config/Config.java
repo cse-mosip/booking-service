@@ -1,6 +1,6 @@
 package com.csemosip.bookingservice.config;
 
-import com.csemosip.bookingservice.exception.UserNotFoundException;
+
 import com.csemosip.bookingservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
