@@ -67,12 +67,12 @@ public class BookingService implements BookingServiceImpl {
     }
 
     @Override
-    public List<Booking> findByBookedDate(LocalDateTime bookedDate) {
+    public List<Booking> findByBookedDate(LocalDate bookedDate) {
         return bookingRepository.findByBookedDate(bookedDate);
     }
 
     @Override
-    public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDateTime bookedDate) {
+    public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate) {
         return bookingRepository.findByResourceIdAndBookedDate(resourceId, bookedDate);
     }
 }
