@@ -19,25 +19,28 @@ public class Resources extends AbstractController {
     ResourceServiceImpl resourceService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> findAllResources() {
         List<Resource> resources = resourceService.findAllResources();
         return sendSuccessResponse(resources, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> findResource(@PathVariable Long id) {
         Resource resource = resourceService.findResource(id);
         return sendSuccessResponse(resource, HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN','','RESOURCE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER')")
     public ResponseEntity<Map<String, Object>> createResource(@RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.createResource(resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER')")
     public ResponseEntity<Map<String, Object>> updateResource(@PathVariable Long id, @RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.updateResource(id, resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.OK);
