@@ -41,4 +41,14 @@ public class ResourceService implements ResourceServiceImpl {
     public Resource findResource(Long id) {
         return resourceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found"));
     }
+
+    @Override
+    public Resource updateResource(Integer id, ResourceDTO resourceDTO) {
+        Resource resource = resourceRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        resource.setName(resourceDTO.getName());
+        resource.setCount(resourceDTO.getCount());
+        return resourceRepository.save(resource);
+    }
 }
