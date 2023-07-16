@@ -37,4 +37,10 @@ public class Booking {
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
+    @Column(name = "count")
+    private int count;
+
+    @Column(name = "reason")
+    private String reason;
 }

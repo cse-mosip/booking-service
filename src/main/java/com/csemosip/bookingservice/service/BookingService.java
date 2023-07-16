@@ -47,6 +47,8 @@ public class BookingService implements BookingServiceImpl {
         booking.setBookedDate(bookingDTO.getBookedDate());
         booking.setStartTime(bookingDTO.getStartTime());
         booking.setEndTime(bookingDTO.getEndTime());
+        booking.setCount(bookingDTO.getCount());
+        booking.setReason(bookingDTO.getReason());
 
         return bookingRepository.save(booking);
     }

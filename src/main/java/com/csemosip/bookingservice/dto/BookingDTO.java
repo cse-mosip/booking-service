@@ -32,4 +32,12 @@ public class BookingDTO {
     @JsonProperty("end_time")
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
+    @JsonProperty("count")
+    @Column(name = "count")
+    private int count;
+
+    @JsonProperty("reason")
+    @Column(name = "reason")
+    private String reason;
 }
