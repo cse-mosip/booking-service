@@ -29,8 +29,8 @@ public class Bookings extends AbstractController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> findBookings(
-            @RequestParam(name = "resourceId", required = false) Long resourceId,
-            @RequestParam(name = "bookedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime bookedDate
+            @RequestParam(name = "resource_id", required = false) Long resourceId,
+            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime bookedDate
     ) {
         List<Booking> bookings;
 
