@@ -58,7 +58,7 @@ public class Bookings extends AbstractController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> createBooking(@RequestBody BookingDTO bookingDTO) {
         Booking booking = bookingService.createBooking(bookingDTO);
         return sendSuccessResponse(booking, HttpStatus.CREATED);
