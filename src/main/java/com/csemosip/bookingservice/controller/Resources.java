@@ -1,6 +1,7 @@
 package com.csemosip.bookingservice.controller;
 
 import com.csemosip.bookingservice.dto.ResourceDTO;
+import com.csemosip.bookingservice.exception.ResourceNotFoundException;
 import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.service.Impl.ResourceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,18 @@ public class Resources extends AbstractController {
     public ResponseEntity<Map<String, Object>> updateResource(@PathVariable Long id, @RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.updateResource(id, resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/available")
+    public ResponseEntity<Map<String, Object>> getAvailableCountByResourceIdAndTimeslot(
+            @PathVariable("id") Long resourceId,
+            @RequestParam("timeslot") String timeslot
+    ) {
+        try {
+            List<Map<String, Object>> availabilityList = resourceService.getAvailabilityByResourceIdAndTimeslot(resourceId, timeslot);
+            return sendSuccessResponse(availabilityList, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return sendBadRequestResponse(e.getMessage());
+        }
     }
 }
