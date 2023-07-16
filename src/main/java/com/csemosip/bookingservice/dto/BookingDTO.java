@@ -14,34 +14,26 @@ import java.time.LocalDateTime;
 public class BookingDTO {
 
     @JsonProperty("resource_id")
-    @Column(name = "resource_id")
     private long resourceId;
 
     @JsonProperty("user_id")
-    @Column(name="user_id")
     private String userId;
 
     @JsonProperty("booked_date")
-    @Column(name = "booked_date")
     private LocalDateTime bookedDate;
 
     @JsonProperty("start_time")
-    @Column(name = "start_time")
     private LocalDateTime startTime;
 
     @JsonProperty("end_time")
-    @Column(name = "end_time")
     private LocalDateTime endTime;
 
     @JsonProperty("count")
-    @Column(name = "count")
     private int count;
 
     @JsonProperty("reason")
-    @Column(name = "reason")
     private String reason;
 
     @JsonProperty("status")
-    @Column(name = "status")
     private String status;
 }
