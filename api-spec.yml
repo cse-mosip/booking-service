@@ -13,6 +13,8 @@ tags:
     description: Booking of a specific resource
   - name: auth
     description: Authentication to the booking system
+  - name: user
+    description: User registration of the booking system
 paths:
   /resources:
     get:
@@ -293,6 +295,82 @@ paths:
       responses:
         "200":
           description: Successful operation
+        "401":
+          description: Invalid credentials
+
+  /user/register:
+    post:
+      tags:
+        - user
+      summary: Register an user
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: hsdhuyiid2546djsiu
+                username:
+                  type: string
+                  example: john
+                password:
+                  type: string
+                  example: john123
+                role:
+                  type: string
+                  example: ADMIN
+                  enum:
+                    - ADMIN
+                    - RESOURCE_MANAGER
+                    - RESOURCE_USER
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: hsdhuyiid2546djsiu
+                      username:
+                        type: string
+                        example: john
+                      password:
+                        type: string
+                        example: $2a$10$8qBn79pg8pYoiRTT4IX.0eViCOX9mk36xvZpmEDiKX7VNBztDjcNC
+                      role:
+                        type: string
+                        example: ADMIN
+                      enabled:
+                        type: string
+                        example: true
+                      authorities:
+                        type: array
+                        example: {
+                          "authority": "RESOURCE_MANAGER"
+                        }
+
+                      accountNonLocked:
+                        type: string
+                        example: true
+                      credentialsNonExpired:
+                        type: string
+                        example: true
+                      accountNonExpired:
+                        type: string
+                        example: true
+                  status:
+                    type: string
+                    example: CREATED
+
         "401":
           description: Invalid credentials
 
