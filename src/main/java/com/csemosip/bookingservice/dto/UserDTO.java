@@ -1,6 +1,7 @@
 package com.csemosip.bookingservice.dto;
 
 import com.csemosip.bookingservice.model.utils.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,15 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserDTO {
-    @Column(name = "id")
+    @JsonProperty("id")
     private String id;
 
-    @Column(name = "username")
+    @JsonProperty("username")
     private String username;
 
-    @Column(name = "password")
+    @JsonProperty("password")
     private String password;
 
-    @Column(name ="role")
+    @JsonProperty("role")
     private Role role;
 }
