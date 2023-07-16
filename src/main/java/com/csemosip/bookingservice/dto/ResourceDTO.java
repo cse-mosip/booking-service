@@ -1,5 +1,6 @@
 package com.csemosip.bookingservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ResourceDTO {
-    @Column(name = "name")
+    @JsonProperty("name")
     private String name;
 
-    @Column(name = "count")
+    @JsonProperty("count")
     private int count;
 }

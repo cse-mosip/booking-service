@@ -47,6 +47,9 @@ public class BookingService implements BookingServiceImpl {
         booking.setBookedDate(bookingDTO.getBookedDate());
         booking.setStartTime(bookingDTO.getStartTime());
         booking.setEndTime(bookingDTO.getEndTime());
+        booking.setCount(bookingDTO.getCount());
+        booking.setReason(bookingDTO.getReason());
+        booking.setStatus("PENDING");
 
         return bookingRepository.save(booking);
     }
@@ -64,17 +67,12 @@ public class BookingService implements BookingServiceImpl {
     }
 
     @Override
-    public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate) {
-        return bookingRepository.findByResourceIdAndBookedDate(resourceId, bookedDate);
-    }
-
-    @Override
-    public List<Booking> findByBookedDate(LocalDateTime bookedDate) {
+    public List<Booking> findByBookedDate(LocalDate bookedDate) {
         return bookingRepository.findByBookedDate(bookedDate);
     }
 
     @Override
-    public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDateTime bookedDate) {
+    public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate) {
         return bookingRepository.findByResourceIdAndBookedDate(resourceId, bookedDate);
     }
 
