@@ -11,19 +11,3 @@ public class BookingserviceApplication {
 	}
 
 }
-// "data": {
-//		 "id": "4529shbiwoq855",
-//		 "username": "rahim",
-//		 "password": "$2a$10$8qBn79pg8pYoiRTT4IX.0eViCOX9mk36xvZpmEDiKX7VNBztDjcNC",
-//		 "role": "RESOURCE_MANAGER",
-//		 "enabled": true,
-//		 "authorities": [
-//		 {
-//		 "authority": "RESOURCE_MANAGER"
-//		 }
-//		 ],
-//		 "accountNonLocked": true,
-//		 "credentialsNonExpired": true,
-//		 "accountNonExpired": true
-//		 },
-//		 "status": "CREATED"
