@@ -11,4 +11,6 @@ public interface ResourceServiceImpl {
     Resource createResource(ResourceDTO resourceDTO);
 
     Resource findResource(Integer id);
+
+    Resource updateResource(Integer id, ResourceDTO resourceDTO);
 }
