@@ -28,13 +28,14 @@ public class UserService implements UserServiceImpl {
         User user = modelMapper.map(userDTO, User.class);
         return userRepository.save(user);
     }
+
     @Override
-    public User findUser(int id) {
+    public User findUser(String id) {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 }

@@ -27,11 +27,11 @@ public class AuthenticationService implements AuthenticationServiceImpl {
         AuthenticationResponse response = new AuthenticationResponse();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authDTO.getEmail(),
+                        authDTO.getUsername(),
                         authDTO.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(authDTO.getEmail()).orElseThrow();
+        var user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
         var token = jwtService.generateToken(user);
         response.setToken(token);
         return response;

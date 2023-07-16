@@ -26,7 +26,7 @@ public class Config {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username -> repository.findByEmail(username)
+        return username -> repository.findByUsername(username)
                 .orElseThrow();  // Throw exception
     }
     @Bean
