@@ -4,6 +4,7 @@ import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.model.Booking;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingServiceImpl {
@@ -13,5 +14,9 @@ public interface BookingServiceImpl {
 
     Booking findBookedResourcesById(Long id);
 
-    List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate);
+    List<Booking> findByResourceId(long id);
+
+    List<Booking> findByBookedDate(LocalDateTime bookedDate);
+
+    List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDateTime bookedDate);
 }

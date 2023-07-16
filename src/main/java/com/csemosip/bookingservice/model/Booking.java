@@ -27,7 +27,7 @@ public class Booking {
     private Resource resource;
 
     @Column(name = "user_id")
-    private long userId;
+    private String userId;
 
     @Column(name = "booked_date")
     private LocalDateTime bookedDate;

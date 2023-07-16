@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,23 @@ public class Bookings extends AbstractController {
     BookingServiceImpl bookingService;
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> findAllBookings() {
-        log.info("get bookings");
-        List<Booking> bookings = bookingService.findAllBookings();
+    public ResponseEntity<Map<String, Object>> findBookings(
+            @RequestParam(name = "resourceId", required = false) Long resourceId,
+            @RequestParam(name = "bookedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime bookedDate
+    ) {
+        List<Booking> bookings;
+
+        if (resourceId != null && bookedDate != null) {
+            bookings = bookingService.findBookingsByResourceIdAndDate(resourceId, bookedDate);
+        } else if (resourceId != null) {
+            bookings = bookingService.findByResourceId(resourceId);
+        } else if (bookedDate != null) {
+            bookings = bookingService.findByBookedDate(bookedDate);
+        } else {
+            // If either resourceId or bookedDate is not provided, fetch all bookings
+            bookings = bookingService.findAllBookings();
+        }
+
         return sendSuccessResponse(bookings, HttpStatus.OK);
     }
 
@@ -43,14 +58,5 @@ public class Bookings extends AbstractController {
     public ResponseEntity<Map<String, Object>> createBooking(@RequestBody BookingDTO bookingDTO) {
         Booking booking = bookingService.createBooking(bookingDTO);
         return sendSuccessResponse(booking, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{resourceId}/{bookedDate}")
-    public ResponseEntity<List<Booking>> findBookingsByResourceIdAndDate(
-            @PathVariable("resourceId") Long resourceId,
-            @PathVariable("bookedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate bookedDate
-    ) {
-        List<Booking> bookings = bookingService.findBookingsByResourceIdAndDate(resourceId, bookedDate);
-        return ResponseEntity.ok(bookings);
     }
 }
