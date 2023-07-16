@@ -19,12 +19,12 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
-    @Column(name = "email")
-    private String email;
+    @Id
+    private String id;
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "password")
     private String password ;
@@ -45,7 +45,7 @@ public class User implements UserDetails{
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.csemosip.bookingservice.service.Impl.ResourceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class Resources extends AbstractController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','','RESOURCE_MANAGER')")
     public ResponseEntity<Map<String, Object>> createResource(@RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.createResource(resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.CREATED);

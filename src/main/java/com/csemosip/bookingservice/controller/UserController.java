@@ -19,13 +19,12 @@ public class UserController extends AbstractController{
     UserServiceImpl userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> findUser(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, Object>> findUser(@PathVariable String id) {
         User user = userService.findUser(id);
         return sendSuccessResponse(user, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserDTO userDTO) {
         User user = userService.createUser(userDTO);
         return sendSuccessResponse(user, HttpStatus.CREATED);

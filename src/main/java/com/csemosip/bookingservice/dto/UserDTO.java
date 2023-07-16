@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserDTO {
-    @Column(name = "email")
-    private String email;
+    @Column(name = "id")
+    private String id;
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "password")
     private String password;
