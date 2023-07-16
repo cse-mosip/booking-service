@@ -67,6 +67,30 @@ paths:
                 $ref: "#/components/schemas/Resource"
         "404":
           description: Resource not found
+    put:
+      tags:
+        - resource
+      summary: Update resource
+      operationId: updateResource
+      parameters:
+        - name: id
+          in: path
+          description: ID of resource
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/NewResource"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resource"
+        "404":
+          description: Resource not found
     delete:
       tags:
         - resource
@@ -405,6 +429,7 @@ components:
         - username
         - reason
         - count
+        - bookedDateTime
         - startDateTime
         - endDateTime
         - status
@@ -430,6 +455,9 @@ components:
           type: integer
           description: Number of instances of the resource booked
           example: 40
+        bookedDateTime:
+          type: string
+          example: "2023-07-10T08:00:00"
         startDateTime:
           type: string
           example: "2023-07-11T08:00:00"
@@ -473,6 +501,7 @@ components:
               - resourceId
               - reason
               - count
+              - bookedDateTime
               - startDateTime
               - endDateTime
             type: object
@@ -491,6 +520,9 @@ components:
               count:
                 type: integer
                 example: 40
+              bookedDateTime:
+                type: string
+                example: "2023-07-10T08:00:00"
               startDateTime:
                 type: string
                 example: "2023-07-11T08:00:00"
