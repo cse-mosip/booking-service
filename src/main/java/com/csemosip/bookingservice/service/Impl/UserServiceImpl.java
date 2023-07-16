@@ -9,6 +9,6 @@ public interface UserServiceImpl {
 
     User findUser(String id);
 
-    User findByUsername(String email);
+    User findByUsername(String username);
 
 }
