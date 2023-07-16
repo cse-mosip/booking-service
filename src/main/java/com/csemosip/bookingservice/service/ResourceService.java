@@ -1,7 +1,9 @@
 package com.csemosip.bookingservice.service;
 
+import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;
+import com.csemosip.bookingservice.model.Booking;
 import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.ResourceRepository;
 import com.csemosip.bookingservice.service.Impl.ResourceServiceImpl;
@@ -28,12 +30,15 @@ public class ResourceService implements ResourceServiceImpl {
 
     @Override
     public Resource createResource(ResourceDTO resourceDTO) {
-        Resource resource = modelMapper.map(resourceDTO, Resource.class);
+        Resource resource = new Resource();
+        resource.setName(resourceDTO.getName());
+        resource.setCount(resourceDTO.getCount());
+
         return resourceRepository.save(resource);
     }
 
     @Override
-    public Resource findResource(Integer id) {
+    public Resource findResource(Long id) {
         return resourceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found"));
     }
 }

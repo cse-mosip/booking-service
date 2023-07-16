@@ -24,7 +24,7 @@ public class Resources extends AbstractController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> findResource(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, Object>> findResource(@PathVariable Long id) {
         Resource resource = resourceService.findResource(id);
         return sendSuccessResponse(resource, HttpStatus.OK);
     }

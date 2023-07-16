@@ -1,5 +1,8 @@
 package com.csemosip.bookingservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +20,10 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id")
-//    @Column(name = "resource_id")
+    @JsonManagedReference // Use this annotation to break the circular reference
+    @JsonIdentityReference(alwaysAsId = true)
     private Resource resource;
 
     @Column(name = "user_id")

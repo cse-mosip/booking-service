@@ -10,5 +10,5 @@ public interface ResourceServiceImpl {
 
     Resource createResource(ResourceDTO resourceDTO);
 
-    Resource findResource(Integer id);
+    Resource findResource(Long id);
 }

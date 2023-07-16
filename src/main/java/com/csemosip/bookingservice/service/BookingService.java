@@ -4,8 +4,11 @@ import com.csemosip.bookingservice.dto.BookingDTO;
 
 import com.csemosip.bookingservice.exception.BookingNotFoundException;
 
+import com.csemosip.bookingservice.exception.ResourceNotFoundException;
 import com.csemosip.bookingservice.model.Booking;
+import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.BookingRepository;
+import com.csemosip.bookingservice.repository.ResourceRepository;
 import com.csemosip.bookingservice.service.Impl.BookingServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class BookingService implements BookingServiceImpl {
     private BookingRepository bookingRepository;
 
     @Autowired
+    private ResourceRepository resourceRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
@@ -31,13 +37,24 @@ public class BookingService implements BookingServiceImpl {
 
     @Override
     public Booking createBooking(BookingDTO bookingDTO) {
-        Booking booking = modelMapper.map(bookingDTO, Booking.class);
+        Resource resource = resourceRepository.findById(bookingDTO.getResourceId())
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with ID: " + bookingDTO.getResourceId()));
+
+        Booking booking = new Booking();
+        booking.setResource(resource);
+        booking.setUserId(bookingDTO.getUserId());
+        booking.setBookedDate(bookingDTO.getBookedDate());
+        booking.setStartTime(bookingDTO.getStartTime());
+        booking.setEndTime(bookingDTO.getEndTime());
+
         return bookingRepository.save(booking);
     }
 
     @Override
-    public Booking findBookedResourcesById(Integer id) {
-        return bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
+    public Booking findBookedResourcesById(Long id) {
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
+
+        return booking;
     }
 
     @Override

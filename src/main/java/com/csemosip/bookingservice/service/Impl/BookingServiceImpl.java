@@ -11,7 +11,7 @@ public interface BookingServiceImpl {
 
     Booking createBooking(BookingDTO bookingDTO);
 
-    Booking findBookedResourcesById(Integer id);
+    Booking findBookedResourcesById(Long id);
 
     List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate);
 }
