@@ -11,7 +11,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleCityNotFoundException(ResourceNotFoundException ex) {
+    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
         Map<String, Object> error = new HashMap<>();
         error.put("message", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     }
   
     @ExceptionHandler(BookingNotFoundException.class)
-    public ResponseEntity<Object> handleCityNotFoundException(BookingNotFoundException ex) {
+    public ResponseEntity<Object> handleBookingNotFoundException(BookingNotFoundException ex) {
         Map<String, Object> error = new HashMap<>();
         error.put("message", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
