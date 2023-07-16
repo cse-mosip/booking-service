@@ -38,7 +38,7 @@ public class Resources extends AbstractController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateResource(@PathVariable Integer id, @RequestBody ResourceDTO resourceDTO) {
+    public ResponseEntity<Map<String, Object>> updateResource(@PathVariable Long id, @RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.updateResource(id, resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.OK);
     }

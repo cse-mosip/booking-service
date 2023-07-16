@@ -43,7 +43,7 @@ public class ResourceService implements ResourceServiceImpl {
     }
 
     @Override
-    public Resource updateResource(Integer id, ResourceDTO resourceDTO) {
+    public Resource updateResource(Long id, ResourceDTO resourceDTO) {
         Resource resource = resourceRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
