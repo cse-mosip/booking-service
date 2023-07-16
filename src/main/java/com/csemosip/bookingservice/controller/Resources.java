@@ -27,7 +27,7 @@ public class Resources extends AbstractController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
-    public ResponseEntity<Map<String, Object>> findResource(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, Object>> findResource(@PathVariable Long id) {
         Resource resource = resourceService.findResource(id);
         return sendSuccessResponse(resource, HttpStatus.OK);
     }
@@ -37,5 +37,11 @@ public class Resources extends AbstractController {
     public ResponseEntity<Map<String, Object>> createResource(@RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.createResource(resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateResource(@PathVariable Long id, @RequestBody ResourceDTO resourceDTO) {
+        Resource resource = resourceService.updateResource(id, resourceDTO);
+        return sendSuccessResponse(resource, HttpStatus.OK);
     }
 }
