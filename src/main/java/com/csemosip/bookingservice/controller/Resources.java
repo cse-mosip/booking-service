@@ -40,6 +40,7 @@ public class Resources extends AbstractController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER')")
     public ResponseEntity<Map<String, Object>> updateResource(@PathVariable Long id, @RequestBody ResourceDTO resourceDTO) {
         Resource resource = resourceService.updateResource(id, resourceDTO);
         return sendSuccessResponse(resource, HttpStatus.OK);
