@@ -10,7 +10,7 @@ public interface ResourceServiceImpl {
 
     Resource createResource(ResourceDTO resourceDTO);
 
-    Resource findResource(Integer id);
+    Resource findResource(Long id);
 
-    Resource updateResource(Integer id, ResourceDTO resourceDTO);
+    Resource updateResource(Long id, ResourceDTO resourceDTO);
 }

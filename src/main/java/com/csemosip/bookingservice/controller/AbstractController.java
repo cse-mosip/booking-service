@@ -13,4 +13,11 @@ public class AbstractController {
         response.put("status", httpStatus);
         return new ResponseEntity<>(response, httpStatus);
     }
+
+    public ResponseEntity<Map<String, Object>> sendBadRequestResponse(String errorMessage) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", errorMessage);
+        response.put("status", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
