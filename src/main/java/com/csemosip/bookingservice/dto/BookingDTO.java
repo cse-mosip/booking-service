@@ -40,4 +40,8 @@ public class BookingDTO {
     @JsonProperty("reason")
     @Column(name = "reason")
     private String reason;
+
+    @JsonProperty("status")
+    @Column(name = "status")
+    private String status;
 }

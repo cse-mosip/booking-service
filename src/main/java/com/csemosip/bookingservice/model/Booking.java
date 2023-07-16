@@ -43,4 +43,7 @@ public class Booking {
 
     @Column(name = "reason")
     private String reason;
+
+    @Column(name = "status")
+    private String status;
 }
