@@ -13,9 +13,11 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    List<Booking> findByResourceIdAndBookedDate(Long resourceId, LocalDateTime bookedDate);
+    @Query("SELECT b FROM Booking b WHERE b.resource.id = :resourceId AND DATE(b.bookedDate) = :bookedDate")
+    List<Booking> findByResourceIdAndBookedDate(@Param("resourceId") Long resourceId, @Param("bookedDate") LocalDate bookedDate);
 
     List<Booking> findByResourceId(Long resourceId);
 
-    List<Booking> findByBookedDate(LocalDateTime bookedDate);
+    @Query("SELECT b FROM Booking b WHERE DATE(b.bookedDate) = :bookedDate")
+    List<Booking> findByBookedDate(@Param("bookedDate") LocalDate bookedDate);
 }

@@ -32,15 +32,17 @@ public class Bookings extends AbstractController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> findBookings(
             @RequestParam(name = "resource_id", required = false) Long resourceId,
-            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime bookedDate
+            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime bookedDateTime
     ) {
         List<Booking> bookings;
 
-        if (resourceId != null && bookedDate != null) {
+        if (resourceId != null && bookedDateTime != null) {
+            LocalDate bookedDate = bookedDateTime.toLocalDate();
             bookings = bookingService.findBookingsByResourceIdAndDate(resourceId, bookedDate);
         } else if (resourceId != null) {
             bookings = bookingService.findByResourceId(resourceId);
-        } else if (bookedDate != null) {
+        } else if (bookedDateTime != null) {
+            LocalDate bookedDate = bookedDateTime.toLocalDate();
             bookings = bookingService.findByBookedDate(bookedDate);
         } else {
             // If either resourceId or bookedDate is not provided, fetch all bookings
