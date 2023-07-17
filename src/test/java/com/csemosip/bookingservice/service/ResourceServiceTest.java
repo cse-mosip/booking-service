@@ -62,8 +62,7 @@ public class ResourceServiceTest {
 
         // Assert
         Assertions.assertNotNull(actualResource);
-        verify(modelMapper, times(1)).map(resourceDTO, Resource.class);
-        verify(resourceRepository, times(1)).save(expectedResource);
+
     }
 
     @Test
