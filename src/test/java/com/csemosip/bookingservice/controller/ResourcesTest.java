@@ -11,10 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -36,8 +33,8 @@ class ResourcesTest {
     void findAllResources_ReturnsListOfResources() {
         // Arrange
         List<Resource> expectedResources = Arrays.asList(
-                new Resource(1, "Resource 1", 1),
-                new Resource(2, "Resource 2", 1)
+                new Resource(1, "Resource 1", 1, new ArrayList<>()),
+                new Resource(2, "Resource 2", 1, new ArrayList<>())
         );
         when(resourceService.findAllResources()).thenReturn(expectedResources);
 
@@ -52,8 +49,8 @@ class ResourcesTest {
     @Test
     void findResource_ValidId_ReturnsResource() {
         // Arrange
-        int resourceId = 1;
-        Resource expectedResource = new Resource(resourceId, "Resource 1", 1);
+        long resourceId = 1;
+        Resource expectedResource = new Resource(resourceId, "Resource 1", 1, new ArrayList<>());
         when(resourceService.findResource(resourceId)).thenReturn(expectedResource);
 
         // Act
@@ -68,7 +65,7 @@ class ResourcesTest {
     void createResource_ValidResourceDTO_ReturnsCreatedResource() {
         // Arrange
         ResourceDTO resourceDTO = new ResourceDTO("Resource 1", 1);
-        Resource expectedResource = new Resource(1, "Resource 1", 1);
+        Resource expectedResource = new Resource(1, "Resource 1", 1, new ArrayList<>());
         when(resourceService.createResource(resourceDTO)).thenReturn(expectedResource);
 
         // Act
