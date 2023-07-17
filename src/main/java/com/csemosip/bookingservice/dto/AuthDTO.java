@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ResourceDTO {
-    @JsonProperty("name")
-    private String name;
+public class AuthDTO {
+    @JsonProperty("username")
+    private String username;
 
-    @JsonProperty("count")
-    private int count;
+    @JsonProperty("password")
+    private String password;
+
 }
