@@ -69,7 +69,7 @@ public class ResourceServiceTest {
     @Test
     public void testFindResource_existingResource() {
         // Arrange
-        Integer resourceId = 1;
+        Long resourceId = 1L;
         Resource expectedResource = new Resource();
         when(resourceRepository.findById(resourceId)).thenReturn(Optional.of(expectedResource));
 
@@ -84,7 +84,7 @@ public class ResourceServiceTest {
     @Test
     public void testFindResource_nonExistingResource() {
         // Arrange
-        Integer resourceId = 1;
+        Long resourceId = 1L;
         when(resourceRepository.findById(resourceId)).thenReturn(Optional.empty());
 
         // Act & Assert
