@@ -7,6 +7,7 @@ import com.csemosip.bookingservice.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,12 +19,14 @@ public class UserController extends AbstractController{
     UserServiceImpl userService;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Map<String, Object>> findUser(@PathVariable String id) {
         User user = userService.findUser(id);
         return sendSuccessResponse(user, HttpStatus.OK);
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserDTO userDTO) {
         User user = userService.createUser(userDTO);
         return sendSuccessResponse(user, HttpStatus.CREATED);
