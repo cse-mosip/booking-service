@@ -65,4 +65,25 @@ public class Bookings extends AbstractController {
         Booking booking = bookingService.createBooking(bookingDTO);
         return sendSuccessResponse(booking, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{resourceId}/{bookedDate}")
+    public ResponseEntity<List<Booking>> findBookingsByResourceIdAndDate(
+            @PathVariable("resourceId") Long resourceId,
+            @PathVariable("bookedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate bookedDate
+    ) {
+        List<Booking> bookings = bookingService.findBookingsByResourceIdAndDate(resourceId, bookedDate);
+        return ResponseEntity.ok(bookings);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Map<String, Object>> updateBookingStatus(
+            @PathVariable("id") Long id,
+            @RequestBody Map<String, String> statusMap
+    ) {
+        String status = statusMap.get("status");
+        Booking booking = bookingService.findBookedResourcesById(id);
+        Booking updatedBooking = bookingService.updateBookingStatus(booking, status);
+        return sendSuccessResponse(updatedBooking, HttpStatus.OK);
+    }
+
 }

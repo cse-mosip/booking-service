@@ -75,4 +75,14 @@ public class BookingService implements BookingServiceImpl {
     public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate) {
         return bookingRepository.findByResourceIdAndBookedDate(resourceId, bookedDate);
     }
+
+    @Override
+    public Booking updateBookingStatus(Booking booking, String status) {
+        if(booking==null){
+            throw new BookingNotFoundException("Booking Not Found");
+        }
+        booking.setStatus(status);
+        return bookingRepository.save(booking);
+    }
+
 }
