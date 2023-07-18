@@ -1,7 +1,7 @@
 package com.csemosip.bookingservice.service;
 
 import com.csemosip.bookingservice.dto.AuthDTO;
-import com.csemosip.bookingservice.model.AuthenticationResponse;
+import com.csemosip.bookingservice.dto.AuthenticationResponse;
 import com.csemosip.bookingservice.repository.UserRepository;
 import com.csemosip.bookingservice.service.Impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;

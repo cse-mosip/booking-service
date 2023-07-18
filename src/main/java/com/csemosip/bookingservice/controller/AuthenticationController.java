@@ -2,7 +2,7 @@ package com.csemosip.bookingservice.controller;
 
 
 import com.csemosip.bookingservice.dto.AuthDTO;
-import com.csemosip.bookingservice.model.AuthenticationResponse;
+import com.csemosip.bookingservice.dto.AuthenticationResponse;
 import com.csemosip.bookingservice.service.Impl.AuthenticationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
