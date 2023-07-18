@@ -1,4 +1,4 @@
-package com.csemosip.bookingservice.service.Impl;
+package com.csemosip.bookingservice.service.impl;
 
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;

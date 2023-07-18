@@ -1,7 +1,7 @@
 package com.csemosip.bookingservice.config;
 
-import com.csemosip.bookingservice.service.Impl.JWTService;
-import com.csemosip.bookingservice.service.Impl.UserServiceImpl;
+import com.csemosip.bookingservice.service.impl.JWTService;
+import com.csemosip.bookingservice.service.impl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
