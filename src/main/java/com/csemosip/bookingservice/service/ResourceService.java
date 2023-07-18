@@ -40,8 +40,7 @@ public class ResourceService implements ResourceServiceImpl {
     @Override
     public Resource createResource(ResourceDTO resourceDTO) {
         Resource resource = new Resource();
-        resource.setName(resourceDTO.getName());
-        resource.setCount(resourceDTO.getCount());
+        modelMapper.map(resourceDTO, resource);
 
         return resourceRepository.save(resource);
     }

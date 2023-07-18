@@ -2,7 +2,9 @@ package com.csemosip.bookingservice.config;
 
 
 import com.csemosip.bookingservice.dto.BookingDTO;
+import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.model.Booking;
+import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,6 +33,14 @@ public class Config {
 
         // Exclude id field of Booking from mapping
         modelMapper.addMappings(new PropertyMap<BookingDTO, Booking>() {
+            @Override
+            protected void configure() {
+                skip(destination.getId());
+            }
+        });
+
+        // Exclude id field of Resource from mapping
+        modelMapper.addMappings(new PropertyMap<ResourceDTO, Resource>() {
             @Override
             protected void configure() {
                 skip(destination.getId());
