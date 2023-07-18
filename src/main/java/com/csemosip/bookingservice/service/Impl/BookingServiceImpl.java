@@ -40,6 +40,7 @@ public class BookingServiceImpl implements BookingService {
 
         Booking booking = new Booking();
         modelMapper.map(bookingDTO, booking);
+        booking.setResource(resource);
         booking.setStatus("PENDING");
 
         return bookingRepository.save(booking);
