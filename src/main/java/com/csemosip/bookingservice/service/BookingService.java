@@ -42,13 +42,7 @@ public class BookingService implements BookingServiceImpl {
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with ID: " + bookingDTO.getResourceId()));
 
         Booking booking = new Booking();
-        booking.setResource(resource);
-        booking.setUserId(bookingDTO.getUserId());
-        booking.setBookedDate(bookingDTO.getBookedDate());
-        booking.setStartTime(bookingDTO.getStartTime());
-        booking.setEndTime(bookingDTO.getEndTime());
-        booking.setCount(bookingDTO.getCount());
-        booking.setReason(bookingDTO.getReason());
+        modelMapper.map(bookingDTO, booking);
         booking.setStatus("PENDING");
 
         return bookingRepository.save(booking);
