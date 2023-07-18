@@ -1,9 +1,7 @@
 package com.csemosip.bookingservice.service;
 
-import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;
-import com.csemosip.bookingservice.model.Booking;
 import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.BookingRepository;
 import com.csemosip.bookingservice.repository.ResourceRepository;

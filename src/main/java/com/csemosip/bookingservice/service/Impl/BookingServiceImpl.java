@@ -4,7 +4,6 @@ import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.model.Booking;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingServiceImpl {
