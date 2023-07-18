@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/resources")
-public class Resources extends AbstractController {
+public class ResourcesController extends AbstractController {
     @Autowired
     ResourceServiceImpl resourceService;
 

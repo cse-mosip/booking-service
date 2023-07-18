@@ -19,9 +19,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/bookings")
-public class Bookings extends AbstractController {
+public class BookingsController extends AbstractController {
 
-    Logger log = LoggerFactory.getLogger(Bookings.class);
+    Logger log = LoggerFactory.getLogger(BookingsController.class);
     @Autowired
     BookingServiceImpl bookingService;
 
