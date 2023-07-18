@@ -33,7 +33,4 @@ public class BookingDTO {
 
     @JsonProperty("reason")
     private String reason;
-
-    @JsonProperty("status")
-    private String status;
 }
