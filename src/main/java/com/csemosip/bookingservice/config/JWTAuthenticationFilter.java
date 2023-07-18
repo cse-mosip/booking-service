@@ -1,7 +1,7 @@
 package com.csemosip.bookingservice.config;
 
-import com.csemosip.bookingservice.service.JWTService;
-import com.csemosip.bookingservice.service.UserService;
+import com.csemosip.bookingservice.service.Impl.JWTService;
+import com.csemosip.bookingservice.service.Impl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
 
     @Override

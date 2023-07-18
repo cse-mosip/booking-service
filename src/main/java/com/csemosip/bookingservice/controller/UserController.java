@@ -3,7 +3,7 @@ package com.csemosip.bookingservice.controller;
 
 import com.csemosip.bookingservice.dto.UserDTO;
 import com.csemosip.bookingservice.model.User;
-import com.csemosip.bookingservice.service.Impl.UserServiceImpl;
+import com.csemosip.bookingservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController extends AbstractController{
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> findUser(@PathVariable String id) {

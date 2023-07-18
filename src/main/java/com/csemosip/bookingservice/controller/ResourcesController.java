@@ -3,7 +3,7 @@ package com.csemosip.bookingservice.controller;
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;
 import com.csemosip.bookingservice.model.Resource;
-import com.csemosip.bookingservice.service.Impl.ResourceServiceImpl;
+import com.csemosip.bookingservice.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/resources")
 public class ResourcesController extends AbstractController {
     @Autowired
-    ResourceServiceImpl resourceService;
+    ResourceService resourceService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")

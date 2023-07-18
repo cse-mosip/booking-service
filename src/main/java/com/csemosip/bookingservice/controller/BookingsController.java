@@ -2,7 +2,7 @@ package com.csemosip.bookingservice.controller;
 
 import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.model.Booking;
-import com.csemosip.bookingservice.service.Impl.BookingServiceImpl;
+import com.csemosip.bookingservice.service.BookingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class BookingsController extends AbstractController {
 
     Logger log = LoggerFactory.getLogger(BookingsController.class);
     @Autowired
-    BookingServiceImpl bookingService;
+    BookingService bookingService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")

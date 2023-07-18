@@ -3,7 +3,7 @@ package com.csemosip.bookingservice.controller;
 
 import com.csemosip.bookingservice.dto.AuthDTO;
 import com.csemosip.bookingservice.dto.AuthenticationResponse;
-import com.csemosip.bookingservice.service.Impl.AuthenticationServiceImpl;
+import com.csemosip.bookingservice.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthenticationController extends AbstractController{
     @Autowired
-    AuthenticationServiceImpl authenticationService;
+    AuthenticationService authenticationService;
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>>  authenticate(@RequestBody AuthDTO authDTO) {
