@@ -49,6 +49,7 @@ public class ResourcesController extends AbstractController {
     }
 
     @GetMapping("/{id}/available")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> getAvailableCountByResourceIdAndTimeslot(
             @PathVariable("id") Long resourceId,
             @RequestParam("timeslot") String timeslot
