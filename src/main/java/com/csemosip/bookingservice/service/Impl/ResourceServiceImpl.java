@@ -1,7 +1,9 @@
 package com.csemosip.bookingservice.service.Impl;
 
+import com.csemosip.bookingservice.dto.ResourceAvailabilityDTO;
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;
+import com.csemosip.bookingservice.model.Booking;
 import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.BookingRepository;
 import com.csemosip.bookingservice.repository.ResourceRepository;
@@ -13,10 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -59,7 +58,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Map<String, Object>> getAvailabilityByResourceIdAndTimeslot(Long resourceId, String timeslot) {
+    public List<ResourceAvailabilityDTO> getAvailabilityByResourceIdAndTimeslot(Long resourceId, String timeslot) {
         Resource resource = resourceRepository.findById(resourceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
 
@@ -68,22 +67,128 @@ public class ResourceServiceImpl implements ResourceService {
         LocalDateTime endTime;
         try {
             String[] times = timeslot.split("-");
-            startTime = LocalDateTime.parse(times[0], DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-            endTime = LocalDateTime.parse(times[1], DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+            startTime = LocalDateTime.parse(times[0], dateTimeFormatter);
+            endTime = LocalDateTime.parse(times[1], dateTimeFormatter);
         } catch (DateTimeParseException | ArrayIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Invalid timeslot format");
         }
 
         // Perform the logic to get the availability count
-        int bookedCount = bookingRepository.getCountOfBookingsForResourceInTimeslot(resourceId, startTime, endTime);
-        int availableCount = resource.getCount() - bookedCount;
+        List<Booking> overlappingBookings = bookingRepository.getBookingsForResourceInTimeslot(
+                resourceId,
+                startTime,
+                endTime
+        );
 
-        // Prepare the response
-        Map<String, Object> availability = new HashMap<>();
-        availability.put("start", startTime.toString());
-        availability.put("end", endTime.toString());
-        availability.put("available", availableCount);
+        List<ResourceAvailabilityDTO>  availabilityList = new ArrayList<>();
 
-        return Collections.singletonList(availability);
+        // Initialize availabilityList assuming max quantity is available for the timeslot
+        ResourceAvailabilityDTO initialAvailability = new ResourceAvailabilityDTO(
+                startTime,
+                endTime,
+                resource.getCount()
+        );
+        availabilityList.add(initialAvailability);
+
+        for (Booking booking : overlappingBookings) {
+            List<ResourceAvailabilityDTO> updatedAvailabilityList = new ArrayList<>();
+
+            for (ResourceAvailabilityDTO availability : availabilityList) {
+                // case 1 : booking covers the whole timeslot
+                if (
+                        (
+                                (booking.getStartTime().isBefore(availability.getStartTime()) ||
+                                booking.getStartTime().isEqual(availability.getStartTime()))
+                                        &&
+                                ((booking.getEndTime().isAfter(availability.getEndTime()) ||
+                                booking.getEndTime().isEqual(availability.getEndTime())))
+
+                        )
+                ) {
+                    ResourceAvailabilityDTO newAvailability = new ResourceAvailabilityDTO(
+                            availability.getStartTime(),
+                            availability.getEndTime(),
+                            availability.getCount() - booking.getCount());
+                    updatedAvailabilityList.add(newAvailability);
+                }
+
+                // case 2: booking has both start time & end time within timeslot
+                else if (
+                        booking.getStartTime().isAfter(availability.getStartTime()) &&
+                        booking.getStartTime().isBefore(availability.getEndTime()) &&
+                        booking.getEndTime().isAfter(availability.getStartTime()) &&
+                        booking.getEndTime().isBefore(availability.getEndTime())
+                ) {
+                    ResourceAvailabilityDTO beforeBooking = new ResourceAvailabilityDTO(
+                            availability.getStartTime(),
+                            booking.getStartTime(),
+                            availability.getCount()
+                    );
+                    ResourceAvailabilityDTO duringBooking = new ResourceAvailabilityDTO(
+                            booking.getStartTime(),
+                            booking.getEndTime(),
+                            availability.getCount() - booking.getCount()
+                    );
+                    ResourceAvailabilityDTO afterBooking = new ResourceAvailabilityDTO(
+                            booking.getEndTime(),
+                            availability.getEndTime(),
+                            availability.getCount()
+                    );
+
+                    updatedAvailabilityList.add(beforeBooking);
+                    updatedAvailabilityList.add(duringBooking);
+                    updatedAvailabilityList.add(afterBooking);
+                }
+
+
+                // case 3: booking has only the start time within the time slot
+                else if (
+                        booking.getStartTime().isAfter(availability.getStartTime()) &&
+                        booking.getStartTime().isBefore(availability.getEndTime()) &&
+                        booking.getEndTime().isAfter(availability.getEndTime())
+                    ) {
+                    ResourceAvailabilityDTO beforeBooking = new ResourceAvailabilityDTO(
+                            availability.getStartTime(),
+                            booking.getStartTime(),
+                            availability.getCount()
+                    );
+                    ResourceAvailabilityDTO duringBooking = new ResourceAvailabilityDTO(
+                            booking.getStartTime(),
+                            availability.getEndTime(),
+                            availability.getCount() - booking.getCount()
+                    );
+
+                    updatedAvailabilityList.add(beforeBooking);
+                    updatedAvailabilityList.add(duringBooking);
+                }
+
+                // case 4: booking has only the end time within the time slot
+                else if (
+                        booking.getEndTime().isAfter(availability.getStartTime()) &&
+                        booking.getEndTime().isBefore(availability.getEndTime()) &&
+                        booking.getStartTime().isBefore(availability.getStartTime())
+                ) {
+                    ResourceAvailabilityDTO duringBooking = new ResourceAvailabilityDTO(
+                            availability.getStartTime(),
+                            booking.getEndTime(),
+                            availability.getCount() - booking.getCount()
+                    );
+                    ResourceAvailabilityDTO afterBooking = new ResourceAvailabilityDTO(
+                            booking.getEndTime(),
+                            availability.getEndTime(),
+                            availability.getCount()
+                    );
+
+                    updatedAvailabilityList.add(duringBooking);
+                    updatedAvailabilityList.add(afterBooking);
+                }
+                else {
+                    updatedAvailabilityList.add(availability);
+                }
+            }
+            availabilityList = updatedAvailabilityList;
+        }
+        return availabilityList;
     }
 }

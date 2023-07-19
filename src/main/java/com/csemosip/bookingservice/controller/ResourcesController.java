@@ -1,5 +1,6 @@
 package com.csemosip.bookingservice.controller;
 
+import com.csemosip.bookingservice.dto.ResourceAvailabilityDTO;
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;
 import com.csemosip.bookingservice.model.Resource;
@@ -53,7 +54,7 @@ public class ResourcesController extends AbstractController {
             @RequestParam("timeslot") String timeslot
     ) {
         try {
-            List<Map<String, Object>> availabilityList = resourceService.getAvailabilityByResourceIdAndTimeslot(resourceId, timeslot);
+            List<ResourceAvailabilityDTO> availabilityList = resourceService.getAvailabilityByResourceIdAndTimeslot(resourceId, timeslot);
             return sendSuccessResponse(availabilityList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return sendBadRequestResponse(e.getMessage());

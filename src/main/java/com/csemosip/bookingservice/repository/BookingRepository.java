@@ -27,4 +27,15 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             @Param("resourceId") Long resourceId,
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime
-    );}
+    );
+
+    @Query("SELECT b FROM Booking b WHERE " +
+            "b.resource.id = :resourceId AND" +
+            "((b.startTime <= :startTime AND b.endTime >= :endTime) OR " +
+            "((b.startTime >= :startTime AND b.startTime <= :endTime ) OR (b.endTime >= :startTime AND b.endTime <= :endTime)))")
+    List<Booking> getBookingsForResourceInTimeslot(
+            @Param("resourceId") Long resourceId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime
+    );
+}
