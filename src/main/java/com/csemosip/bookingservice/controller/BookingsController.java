@@ -73,6 +73,7 @@ public class BookingsController extends AbstractController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> updateBookingStatus(
             @PathVariable("id") Long id,
             @RequestBody Map<String, String> statusMap
