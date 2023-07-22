@@ -6,11 +6,13 @@ import com.csemosip.bookingservice.exception.ResourceNotFoundException;
 import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -52,10 +54,15 @@ public class ResourcesController extends AbstractController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> getAvailableCountByResourceIdAndTimeslot(
             @PathVariable("id") Long resourceId,
-            @RequestParam("timeslot") String timeslot
+            @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime start,
+            @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime end
     ) {
         try {
-            List<ResourceAvailabilityDTO> availabilityList = resourceService.getAvailabilityByResourceIdAndTimeslot(resourceId, timeslot);
+            List<ResourceAvailabilityDTO> availabilityList = resourceService.getAvailabilityByResourceIdAndTimeslot(
+                    resourceId,
+                    start,
+                    end
+            );
             return sendSuccessResponse(availabilityList, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return sendBadRequestResponse(e.getMessage());

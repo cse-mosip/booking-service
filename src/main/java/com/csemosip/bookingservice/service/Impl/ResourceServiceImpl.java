@@ -58,21 +58,13 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<ResourceAvailabilityDTO> getAvailabilityByResourceIdAndTimeslot(Long resourceId, String timeslot) {
+    public List<ResourceAvailabilityDTO> getAvailabilityByResourceIdAndTimeslot(
+            Long resourceId,
+            LocalDateTime startTime,
+            LocalDateTime endTime
+    ) {
         Resource resource = resourceRepository.findById(resourceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
-
-        // Parse the timeslot string and extract the start and end times
-        LocalDateTime startTime;
-        LocalDateTime endTime;
-        try {
-            String[] times = timeslot.split("-");
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
-            startTime = LocalDateTime.parse(times[0], dateTimeFormatter);
-            endTime = LocalDateTime.parse(times[1], dateTimeFormatter);
-        } catch (DateTimeParseException | ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Invalid timeslot format");
-        }
 
         // Perform the logic to get the availability count
         List<Booking> overlappingBookings = bookingRepository.getBookingsForResourceInTimeslot(
