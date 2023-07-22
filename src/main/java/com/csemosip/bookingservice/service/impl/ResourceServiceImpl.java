@@ -1,4 +1,4 @@
-package com.csemosip.bookingservice.service.Impl;
+package com.csemosip.bookingservice.service.impl;
 
 import com.csemosip.bookingservice.dto.ResourceAvailabilityDTO;
 import com.csemosip.bookingservice.dto.ResourceDTO;

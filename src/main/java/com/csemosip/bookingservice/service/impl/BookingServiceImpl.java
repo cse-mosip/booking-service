@@ -1,4 +1,4 @@
-package com.csemosip.bookingservice.service.Impl;
+package com.csemosip.bookingservice.service.impl;
 
 import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.exception.BookingNotFoundException;
