@@ -53,14 +53,10 @@ public class BookingServiceImpl implements BookingService {
                 bookingDTO.getEndTime()
         );
 
-        int minAvailable = resource.getCount();
         for (ResourceAvailabilityDTO availabilityDTO : availabilityList) {
-            if (availabilityDTO.getCount() < minAvailable)
-                minAvailable = availabilityDTO.getCount();
+            if (availabilityDTO.getCount() < bookingDTO.getCount())
+                throw new ValidationErrorException("count cannot exceed the available count during the timeslot.");
         }
-
-        if (minAvailable < bookingDTO.getCount())
-            throw new ValidationErrorException("count cannot exceed the available count during the timeslot.");
 
         Booking booking = new Booking();
         modelMapper.map(bookingDTO, booking);
