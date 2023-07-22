@@ -1,10 +1,11 @@
 package com.csemosip.bookingservice.service;
 
+import com.csemosip.bookingservice.dto.ResourceAvailabilityDTO;
 import com.csemosip.bookingservice.dto.ResourceDTO;
 import com.csemosip.bookingservice.model.Resource;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public interface ResourceService {
     List<Resource> findAllResources();
@@ -15,5 +16,9 @@ public interface ResourceService {
 
     Resource updateResource(Long id, ResourceDTO resourceDTO);
 
-    List<Map<String, Object>> getAvailabilityByResourceIdAndTimeslot(Long resourceId, String timeslot);
+    List<ResourceAvailabilityDTO> getAvailabilityByResourceIdAndTimeslot(
+            Long resourceId,
+            LocalDateTime start,
+            LocalDateTime end
+    );
 }
