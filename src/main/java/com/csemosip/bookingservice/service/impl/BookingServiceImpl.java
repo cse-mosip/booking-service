@@ -1,13 +1,16 @@
 package com.csemosip.bookingservice.service.impl;
 
 import com.csemosip.bookingservice.dto.BookingDTO;
+import com.csemosip.bookingservice.dto.ResourceAvailabilityDTO;
 import com.csemosip.bookingservice.exception.BookingNotFoundException;
+import com.csemosip.bookingservice.exception.ValidationErrorException;
 import com.csemosip.bookingservice.exception.ResourceNotFoundException;
 import com.csemosip.bookingservice.model.Booking;
 import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.BookingRepository;
 import com.csemosip.bookingservice.repository.ResourceRepository;
 import com.csemosip.bookingservice.service.BookingService;
+import com.csemosip.bookingservice.service.ResourceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,6 @@ import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
-
-
     @Autowired
     private BookingRepository bookingRepository;
 
@@ -28,6 +29,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ResourceService resourceService;
+
     @Override
     public List<Booking> findAllBookings() {
         return bookingRepository.findAll();
@@ -36,7 +40,27 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking createBooking(BookingDTO bookingDTO) {
         Resource resource = resourceRepository.findById(bookingDTO.getResourceId())
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with ID: " + bookingDTO.getResourceId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + bookingDTO.getResourceId()));
+
+        // check if the booking count exceeds the max count of the resource
+        if (bookingDTO.getCount() > resource.getCount())
+            throw new ValidationErrorException("count cannot exceed the max count of the resource.");
+
+        // check if the booking count exceeds the MIN available count during the timeslot
+        List<ResourceAvailabilityDTO> availabilityList = resourceService.getAvailabilityByResourceIdAndTimeslot(
+                resource.getId(),
+                bookingDTO.getStartTime(),
+                bookingDTO.getEndTime()
+        );
+
+        int minAvailable = resource.getCount();
+        for (ResourceAvailabilityDTO availabilityDTO : availabilityList) {
+            if (availabilityDTO.getCount() < minAvailable)
+                minAvailable = availabilityDTO.getCount();
+        }
+
+        if (minAvailable < bookingDTO.getCount())
+            throw new ValidationErrorException("count cannot exceed the available count during the timeslot.");
 
         Booking booking = new Booking();
         modelMapper.map(bookingDTO, booking);
