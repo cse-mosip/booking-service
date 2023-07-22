@@ -1,4 +1,4 @@
-package com.csemosip.bookingservice.service;
+package com.csemosip.bookingservice.service.impl;
 
 import com.csemosip.bookingservice.model.User;
 import io.jsonwebtoken.Claims;

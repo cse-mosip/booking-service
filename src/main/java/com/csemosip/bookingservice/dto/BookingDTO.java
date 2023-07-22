@@ -1,7 +1,6 @@
 package com.csemosip.bookingservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,4 @@ public class BookingDTO {
 
     @JsonProperty("reason")
     private String reason;
-
-    @JsonProperty("status")
-    private String status;
 }

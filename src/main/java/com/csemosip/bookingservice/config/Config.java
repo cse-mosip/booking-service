@@ -1,9 +1,14 @@
 package com.csemosip.bookingservice.config;
 
 
+import com.csemosip.bookingservice.dto.BookingDTO;
+import com.csemosip.bookingservice.dto.ResourceDTO;
+import com.csemosip.bookingservice.model.Booking;
+import com.csemosip.bookingservice.model.Resource;
 import com.csemosip.bookingservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +29,24 @@ public class Config {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+
+        // Exclude id field of Booking from mapping
+        modelMapper.addMappings(new PropertyMap<BookingDTO, Booking>() {
+            @Override
+            protected void configure() {
+                skip(destination.getId());
+            }
+        });
+
+        // Exclude id field of Resource from mapping
+        modelMapper.addMappings(new PropertyMap<ResourceDTO, Resource>() {
+            @Override
+            protected void configure() {
+                skip(destination.getId());
+            }
+        });
+        return modelMapper;
     }
 
     @Bean

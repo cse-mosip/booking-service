@@ -2,7 +2,7 @@ package com.csemosip.bookingservice.controller;
 
 import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.model.Booking;
-import com.csemosip.bookingservice.service.Impl.BookingServiceImpl;
+import com.csemosip.bookingservice.service.BookingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,11 +19,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/bookings")
-public class Bookings extends AbstractController {
+public class BookingsController extends AbstractController {
 
-    Logger log = LoggerFactory.getLogger(Bookings.class);
+    Logger log = LoggerFactory.getLogger(BookingsController.class);
     @Autowired
-    BookingServiceImpl bookingService;
+    BookingService bookingService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
