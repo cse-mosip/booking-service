@@ -7,6 +7,7 @@ import com.csemosip.bookingservice.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +26,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse login(AuthDTO authDTO) {
         AuthenticationResponse response = new AuthenticationResponse();
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authDTO.getUsername(),
-                        authDTO.getPassword()
-                )
-        );
-        var user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
-        var token = jwtService.generateToken(user);
-        response.setToken(token);
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authDTO.getUsername(),
+                            authDTO.getPassword()
+                    )
+            );
+            var user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
+            var token = jwtService.generateToken(user);
+            response.setSuccessStatus(true);
+            response.setToken(token);
+        }
+        catch (BadCredentialsException exception){
+            response.setSuccessStatus(false);
+            response.setToken("CANNOT GENERATE");
+        }
         return response;
     }
 
