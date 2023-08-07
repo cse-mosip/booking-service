@@ -39,10 +39,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             response.setSuccessStatus(true);
             response.setToken(token);
         }
-        catch (BadCredentialsException exception){
-            response.setSuccessStatus(false);
-            response.setToken("CANNOT GENERATE");
-        }
         catch (AuthenticationException exception){
             response.setSuccessStatus(false);
             response.setToken("CANNOT GENERATE");
