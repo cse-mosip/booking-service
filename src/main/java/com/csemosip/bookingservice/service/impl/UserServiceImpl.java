@@ -19,12 +19,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     @Override
     public User createUser(UserDTO userDTO) {
-        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-        userDTO.setPassword(encodedPassword);
         User user = modelMapper.map(userDTO, User.class);
         return userRepository.save(user);
     }

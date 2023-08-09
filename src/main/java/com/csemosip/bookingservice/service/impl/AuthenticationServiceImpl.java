@@ -28,16 +28,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse login(AuthDTO authDTO) {
         AuthenticationResponse response = new AuthenticationResponse();
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authDTO.getUsername(),
-                            authDTO.getPassword()
-                    )
-            );
-            var user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
-            var token = jwtService.generateToken(user);
-            response.setSuccessStatus(true);
-            response.setToken(token);
+
+            // Call the external authentication endpoint
+            // Once authenticated externally, can proceed to generate JWT token
+
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            authDTO.getUsername(),
+//                            authDTO.getPassword()
+//                    )
+//            );
+
+            if(true){
+                var user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
+                var token = jwtService.generateToken(user);
+                response.setSuccessStatus(true);
+                response.setToken(token);
+            }
         }
         catch (AuthenticationException exception){
             response.setSuccessStatus(false);
