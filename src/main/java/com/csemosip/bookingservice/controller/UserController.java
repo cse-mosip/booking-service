@@ -26,9 +26,9 @@ public class UserController extends AbstractController{
     }
 
     @PostMapping("/register")
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody UserDTO userDTO) {
         User user = userService.createUser(userDTO);
-        return sendSuccessResponse(user, HttpStatus.CREATED);
+        return sendSuccessResponse(user, HttpStatus.OK);
     }
 }
