@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -86,6 +87,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findBookingsByResourceIdAndDate(long resourceId, LocalDate bookedDate) {
         return bookingRepository.findByResourceIdAndBookedDate(resourceId, bookedDate);
+    }
+
+    @Override
+    public List<Booking> findBookingsByUsernameAndResourceIdAndDate(String username, long resourceId, LocalDateTime date) {
+        return bookingRepository.findByUsernameAndResourceIdAndDate(username, resourceId, date);
     }
 
     @Override

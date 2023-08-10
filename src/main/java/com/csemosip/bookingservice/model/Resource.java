@@ -2,6 +2,7 @@ package com.csemosip.bookingservice.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class Resource {
     @Column(name = "count")
     private int count;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 }
