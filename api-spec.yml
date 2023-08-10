@@ -193,6 +193,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Booking"
+    patch:
+      tags:
+        - booking
+      summary: Update the status of a booking to IN-USE
+      operationId: updateStatusOfBookingToInUse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resourceId:
+                  type: integer
+                  example: 1
+                fingerprint:
+                  type: array
+                  example: [1,2,3]
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: "190388K"
+                  status:
+                    type: string
+                    example: "OK"
   /bookings/{id}:
     get:
       tags:
