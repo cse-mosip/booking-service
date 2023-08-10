@@ -28,7 +28,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Resources"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Resources"
+                  status:
+                    type: string
+                    example: "OK"
     post:
       tags:
         - resource
@@ -42,7 +48,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Resource"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Resource"
+                  status:
+                    type: string
+                    example: "CREATED"
   /resources/{id}:
     get:
       tags:
@@ -64,7 +76,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Resource"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Resource"
+                  status:
+                    type: string
+                    example: "OK"
         "404":
           description: Resource not found
     put:
@@ -88,69 +106,88 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Resource"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Resource"
+                  status:
+                    type: string
+                    example: "OK"
         "404":
           description: Resource not found
-    delete:
-      tags:
-        - resource
-      summary: Deletes a resource
-      description: delete a resource
-      operationId: deleteResource
-      parameters:
-        - name: id
-          in: path
-          description: Resource id to delete
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "404":
-          description: No such resource
-  /resources/{id}/available:
-    get:
-      tags:
-        - resource
-      summary: Get available number of instances of the resource
-      description: Returns the number of available instances of the resource in the given timeslot
-      operationId: getAvailableCountByResourceIdAndTimeslot
-      parameters:
-        - name: id
-          in: path
-          description: ID of resource
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: timeslot
-          in: query
-          description: timeslot
-          required: true
-          schema:
-            type: string
-            example: 20230714T10:00-2023-0714T11:00
-      responses:
-        "200":
-          description: successful operation
-          content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      start:
-                        type: string
-                        example: "2023-07-15T09:00"
-                      end:
-                        type: string
-                        example: "2023-07-15T10:00"
-                      available:
-                        type: integer
-                        example: 10
-        "404":
-          description: Resource not found
+#    delete:
+#      tags:
+#        - resource
+#      summary: Deletes a resource
+#      description: delete a resource
+#      operationId: deleteResource
+#      parameters:
+#        - name: id
+#          in: path
+#          description: Resource id to delete
+#          required: true
+#          schema:
+#            type: integer
+#            format: int64
+#      responses:
+#        "404":
+#          description: No such resource
+#  /resources/{id}/available:
+#    get:
+#      tags:
+#        - resource
+#      summary: Get available number of instances of the resource
+#      description: Returns the number of available instances of the resource in the given timeslot
+#      operationId: getAvailableCountByResourceIdAndTimeslot
+#      parameters:
+#        - name: id
+#          in: path
+#          description: ID of resource
+#          required: true
+#          schema:
+#            type: integer
+#            format: int64
+#        - name: start
+#          in: query
+#          description: timeslot start time
+#          required: true
+#          schema:
+#            type: string
+#            example: 20230714T10:00
+#        - name: end
+#          in: query
+#          description: timeslot end time
+#          required: true
+#          schema:
+#            type: string
+#            example: 20230714T11:00
+#      responses:
+#        "200":
+#          description: successful operation
+#          content:
+#              application/json:
+#                schema:
+#                  type: object
+#                  properties:
+#                    data:
+#                      type: array
+#                      items:
+#                        type: object
+#                        properties:
+#                          start:
+#                            type: string
+#                            example: "2023-07-15T09:00"
+#                          end:
+#                            type: string
+#                            example: "2023-07-15T10:00"
+#                          available:
+#                            type: integer
+#                            example: 10
+#                    status:
+#                      type: string
+#                      example: "OK"
+#        "404":
+#          description: Resource not found
   /bookings:
     get:
       tags:
@@ -178,7 +215,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Bookings"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Bookings"
+                  status:
+                    type: string
+                    example: "OK"
     post:
       tags:
         - booking
@@ -192,7 +235,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Booking"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Resource"
+                  status:
+                    type: string
+                    example: "CREATED"
     patch:
       tags:
         - booking
@@ -204,12 +253,18 @@ paths:
             schema:
               type: object
               properties:
-                resourceId:
-                  type: integer
-                  example: 1
-                fingerprint:
-                  type: array
-                  example: [1,2,3]
+                data:
+                  type: object
+                  properties:
+                    resourceId:
+                      type: integer
+                      example: 1
+                    fingerprint:
+                      type: array
+                      example: [ 1,2,3 ]
+                status:
+                  type: string
+                  example: "OK"
       responses:
         "200":
           description: Successful operation
@@ -248,26 +303,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Booking"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Booking"
+                  status:
+                    type: string
+                    example: "OK"
         "404":
           description: Booking not found
-    delete:
-      tags:
-        - booking
-      summary: Delete a booking
-      description: delete a booking
-      operationId: deleteBooking
-      parameters:
-        - name: id
-          in: path
-          description: Booking id to delete
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "404":
-          description: No such booking
+#    delete:
+#      tags:
+#        - booking
+#      summary: Delete a booking
+#      description: delete a booking
+#      operationId: deleteBooking
+#      parameters:
+#        - name: id
+#          in: path
+#          description: Booking id to delete
+#          required: true
+#          schema:
+#            type: integer
+#            format: int64
+#      responses:
+#        "404":
+#          description: No such booking
   /bookings/{id}/status:
     patch:
       tags:
@@ -298,7 +359,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Booking"
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Booking"
+                  status:
+                    type: string
+                    example: "OK"
         "404":
           description: Booking not found
   /auth/login:
@@ -313,23 +380,29 @@ paths:
             schema:
               type: object
               properties:
-                username:
+                data:
+                  $ref: "#/components/schemas/Bookings"
+                status:
                   type: string
-                  example: john
-                password:
-                  type: string
-                  example: john123
+                  example: "OK"
+
       responses:
-        "200":
+        "202":
           description: Successful operation
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  token:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                  status:
                     type: string
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                    example: "ACCEPTED"
         "401":
           description: Invalid credentials
   /auth/logout:
