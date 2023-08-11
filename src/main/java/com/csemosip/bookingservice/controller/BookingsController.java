@@ -36,6 +36,9 @@ public class BookingsController extends AbstractController {
     @Value("${mosip-auth-service-url}")
     String mosipAuthenticationServiceUrl;
 
+    @Value("${allowed-time-window-before-booking-in-mins}")
+    int allowedTimeBeforeABooking;
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> findBookings(
@@ -99,7 +102,7 @@ public class BookingsController extends AbstractController {
         LocalDateTime now = LocalDateTime.now();
         for (Booking booking : bookings) {
             String bookingStatus = booking.getStatus();
-            if (booking.getStartTime().minusMinutes(10).isBefore(now) &&
+            if (booking.getStartTime().minusMinutes(allowedTimeBeforeABooking).isBefore(now) &&
                     booking.getEndTime().isAfter(now) &&
                     bookingStatus.equals("APPROVED")
             ) {
