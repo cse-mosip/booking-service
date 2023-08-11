@@ -30,7 +30,7 @@ public class Resource {
     @Column(name = "count")
     private int count;
 
-    @JsonBackReference
+//    @JsonBackReference
     @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 }
