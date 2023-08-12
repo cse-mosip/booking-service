@@ -273,6 +273,15 @@ paths:
                       username:
                         type: string
                         example: "190388K"
+                      startTime:
+                        type: string
+                        example: "2023-08-12T19:00:00"
+                      endTime:
+                        type: string
+                        example: "2023-08-12T19:00:00"
+                      count:
+                        type: integer
+                        example: 10
                   status:
                     type: string
                     example: "OK"
