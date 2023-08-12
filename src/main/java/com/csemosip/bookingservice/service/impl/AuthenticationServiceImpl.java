@@ -7,7 +7,7 @@ import com.csemosip.bookingservice.repository.UserRepository;
 import com.csemosip.bookingservice.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,23 +21,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private JWTService jwtService;
 
+    @Value("${mosip-user-verification-url}")
+    String verificationEndPoint;
+
     @Override
     public AuthenticationResponse login(AuthDTO authDTO) {
         AuthenticationResponse response = new AuthenticationResponse();
         try {
 
-            // Call the external authentication endpoint
-            // Once authenticated externally, can proceed to generate JWT token
-
             String username = authDTO.getUsername();
             String password = authDTO.getPassword();
             RestTemplate restTemplate = new RestTemplate();
-            //TODO: Replace with the correct endpoint
-            String verificationEndPoint = "https://36811170-f4c5-404c-90ad-3d807b36f503.mock.pstmn.io/api/public/verify";
+
             String requestPayload = "{\"email\": \""+username+"\" , \"password\": \""+password+"\"}";
 
             VerificationResponse verificationResponse = restTemplate.
-                    postForObject(verificationEndPoint, requestPayload, VerificationResponse.class);
+                    postForObject(verificationEndPoint,
+                            requestPayload,
+                            VerificationResponse.class);
 
             if(verificationResponse.isVerified()){
                 var user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
@@ -49,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             }
         }
         catch (AuthenticationException exception){
-            response.setToken("CANNOT GENERATE");
+            response.setToken("CANNOT GENERATE TOKEN");
         }
         return response;
     }
