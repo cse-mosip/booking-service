@@ -107,8 +107,11 @@ public class BookingsController extends AbstractController {
                     bookingStatus.equals("APPROVED")
             ) {
                 bookingService.updateBookingStatus(booking, "IN-USE");
-                HashMap<String, String> responseObject = new HashMap<>();
+                HashMap<String, Object> responseObject = new HashMap<>();
                 responseObject.put("username", username);
+                responseObject.put("startTime", booking.getStartTime().format(DateTimeFormatter.ISO_DATE_TIME));
+                responseObject.put("endTime", booking.getEndTime().format(DateTimeFormatter.ISO_DATE_TIME));
+                responseObject.put("count", booking.getCount());
                 return sendSuccessResponse(responseObject, HttpStatus.OK);
             }
         }
