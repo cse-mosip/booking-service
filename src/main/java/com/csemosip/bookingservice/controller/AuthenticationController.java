@@ -20,10 +20,10 @@ public class AuthenticationController extends AbstractController{
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>>  authenticate(@RequestBody AuthDTO authDTO) {
         AuthenticationResponse auth = authenticationService.login(authDTO);
-        return sendSuccessResponse(auth, HttpStatus.ACCEPTED);
+        return sendSuccessResponse(auth, HttpStatus.OK);
     }
     @PostMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout() {
-        return sendSuccessResponse("success", HttpStatus.ACCEPTED);
+        return sendSuccessResponse("success", HttpStatus.OK);
     }
 }
