@@ -18,7 +18,7 @@
 3. Run docker image (change configuration values as necessary)
     ```shell
     docker run \
-        -e SPRING_APPLICATION_JSON='{"spring": {"datasource": {"url": "jdbc:postgresql://host.docker.internal:5432/mosip_booking", "username": "mosip", "password": "mosip"}}}' \
+        -e SPRING_APPLICATION_JSON='{"mosip-auth-service-url": "https://auth-service.cse-mosip.com/upload", "mosip-user-verification-url": "https://registration-service.cse-mosip.com/api/public/verify", "spring": {"datasource": {"url": "jdbc:postgresql://host.docker.internal:5432/mosip_booking", "username": "mosip", "password": "mosip"}}}' \
         -p 8080:8080 \
         cse-mosip/booking-service
     ```
