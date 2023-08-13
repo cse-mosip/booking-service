@@ -30,7 +30,7 @@ public class JWTService {
 
     public String generateToken(User userDetails) {
         HashMap<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("role ", userDetails.getRole().toString());
+        extraClaims.put("role", userDetails.getRole().toString());
         return generateToken(extraClaims, userDetails);
     }
 
