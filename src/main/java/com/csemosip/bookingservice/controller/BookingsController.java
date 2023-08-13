@@ -19,9 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/bookings")
@@ -73,6 +71,7 @@ public class BookingsController extends AbstractController {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<Object> request = new HttpEntity<>(fingerprint, headers);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                 mosipAuthenticationServiceUrl,
