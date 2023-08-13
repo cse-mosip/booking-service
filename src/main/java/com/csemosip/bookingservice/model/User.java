@@ -26,9 +26,6 @@ public class User implements UserDetails{
     @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
-    private String password ;
-
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,7 +37,7 @@ public class User implements UserDetails{
 
     @Override
     public String getPassword() {
-        return password;
+        return null;
     }
 
     @Override
