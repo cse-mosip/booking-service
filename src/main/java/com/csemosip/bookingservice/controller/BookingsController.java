@@ -11,15 +11,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bookings")
@@ -72,7 +86,11 @@ public class BookingsController extends AbstractController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<Object> request = new HttpEntity<>(fingerprint, headers);
+
+        Map<String, Object> authRequestBody = Map.ofEntries(
+                Map.entry("data", fingerprint)
+        );
+        HttpEntity<Object> request = new HttpEntity<>(authRequestBody, headers);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                 mosipAuthenticationServiceUrl,
                 request,
@@ -89,7 +107,7 @@ public class BookingsController extends AbstractController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        String username = jsonNode.get("username").asText();
+        String username = jsonNode.get("message").asText();
 
         // Check if the given user has a booking for the given resource id
         List<Booking> bookings = bookingService.findBookingsByUsernameAndResourceIdAndDate(
