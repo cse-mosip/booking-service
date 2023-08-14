@@ -1,5 +1,8 @@
 package com.csemosip.bookingservice.config;
 
+import com.csemosip.bookingservice.exception.ResourceNotFoundException;
+import com.csemosip.bookingservice.model.User;
+import com.csemosip.bookingservice.model.utils.Role;
 import com.csemosip.bookingservice.service.impl.JWTService;
 import com.csemosip.bookingservice.service.impl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
@@ -41,7 +44,16 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         jwtToken = authHeader.substring(7);
         username = jwtService.extractUsername(jwtToken);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.findByUsername( username);
+            User user;
+            try {
+                user = userService.findByUsername(username);
+            } catch (ResourceNotFoundException e) {
+                user = new User();
+                user.setId(username);
+                user.setUsername(username);
+                user.setRole(Role.RESOURCE_USER);
+            }
+            UserDetails userDetails = user;
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         userDetails,
