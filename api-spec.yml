@@ -115,79 +115,62 @@ paths:
                     example: "OK"
         "404":
           description: Resource not found
-#    delete:
-#      tags:
-#        - resource
-#      summary: Deletes a resource
-#      description: delete a resource
-#      operationId: deleteResource
-#      parameters:
-#        - name: id
-#          in: path
-#          description: Resource id to delete
-#          required: true
-#          schema:
-#            type: integer
-#            format: int64
-#      responses:
-#        "404":
-#          description: No such resource
-#  /resources/{id}/available:
-#    get:
-#      tags:
-#        - resource
-#      summary: Get available number of instances of the resource
-#      description: Returns the number of available instances of the resource in the given timeslot
-#      operationId: getAvailableCountByResourceIdAndTimeslot
-#      parameters:
-#        - name: id
-#          in: path
-#          description: ID of resource
-#          required: true
-#          schema:
-#            type: integer
-#            format: int64
-#        - name: start
-#          in: query
-#          description: timeslot start time
-#          required: true
-#          schema:
-#            type: string
-#            example: 20230714T10:00
-#        - name: end
-#          in: query
-#          description: timeslot end time
-#          required: true
-#          schema:
-#            type: string
-#            example: 20230714T11:00
-#      responses:
-#        "200":
-#          description: successful operation
-#          content:
-#              application/json:
-#                schema:
-#                  type: object
-#                  properties:
-#                    data:
-#                      type: array
-#                      items:
-#                        type: object
-#                        properties:
-#                          start:
-#                            type: string
-#                            example: "2023-07-15T09:00"
-#                          end:
-#                            type: string
-#                            example: "2023-07-15T10:00"
-#                          available:
-#                            type: integer
-#                            example: 10
-#                    status:
-#                      type: string
-#                      example: "OK"
-#        "404":
-#          description: Resource not found
+  /resources/{id}/available:
+    get:
+      tags:
+        - resource
+      summary: Get available number of instances of the resource
+      description: Returns the number of available instances of the resource in the given timeslot
+      operationId: getAvailableCountByResourceIdAndTimeslot
+      parameters:
+        - name: id
+          in: path
+          description: ID of resource
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: start
+          in: query
+          description: timeslot start time
+          required: true
+          schema:
+            type: string
+            example: 20230714T10:00
+        - name: end
+          in: query
+          description: timeslot end time
+          required: true
+          schema:
+            type: string
+            example: 20230714T11:00
+      responses:
+        "200":
+          description: successful operation
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          start:
+                            type: string
+                            example: "2023-07-15T09:00"
+                          end:
+                            type: string
+                            example: "2023-07-15T10:00"
+                          available:
+                            type: integer
+                            example: 10
+                    status:
+                      type: string
+                      example: "OK"
+        "404":
+          description: Resource not found
   /bookings:
     get:
       tags:
@@ -315,23 +298,6 @@ paths:
                     example: "OK"
         "404":
           description: Booking not found
-#    delete:
-#      tags:
-#        - booking
-#      summary: Delete a booking
-#      description: delete a booking
-#      operationId: deleteBooking
-#      parameters:
-#        - name: id
-#          in: path
-#          description: Booking id to delete
-#          required: true
-#          schema:
-#            type: integer
-#            format: int64
-#      responses:
-#        "404":
-#          description: No such booking
   /bookings/{id}/status:
     patch:
       tags:
@@ -383,11 +349,10 @@ paths:
             schema:
               type: object
               properties:
-                data:
-                  $ref: "#/components/schemas/Bookings"
-                status:
+                username:
                   type: string
-                  example: "OK"
+                password:
+                  type: string
 
       responses:
         "202":
@@ -450,9 +415,6 @@ paths:
                 username:
                   type: string
                   example: john
-                password:
-                  type: string
-                  example: john123
                 role:
                   type: string
                   example: ADMIN
@@ -477,9 +439,6 @@ paths:
                       username:
                         type: string
                         example: john
-                      password:
-                        type: string
-                        example: $2a$10$8qBn79pg8pYoiRTT4IX.0eViCOX9mk36xvZpmEDiKX7VNBztDjcNC
                       role:
                         type: string
                         example: ADMIN
