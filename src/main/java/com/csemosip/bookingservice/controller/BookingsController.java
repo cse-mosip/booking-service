@@ -3,6 +3,7 @@ package com.csemosip.bookingservice.controller;
 import com.csemosip.bookingservice.dto.BookingDTO;
 import com.csemosip.bookingservice.model.Booking;
 import com.csemosip.bookingservice.service.BookingService;
+import com.csemosip.bookingservice.utils.RegistrationServiceAPI;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,6 +50,12 @@ public class BookingsController extends AbstractController {
     @Value("${allowed-time-window-before-booking-in-mins}")
     int allowedTimeBeforeABooking;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private RegistrationServiceAPI registrationServiceAPI;
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'RESOURCE_MANAGER', 'RESOURCE_USER')")
     public ResponseEntity<Map<String, Object>> findBookings(
@@ -82,7 +89,6 @@ public class BookingsController extends AbstractController {
         Object fingerprint = requestBody.get("fingerprint");
 
         // Authenticate fingerprint data with auth service
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -107,11 +113,13 @@ public class BookingsController extends AbstractController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        String username = jsonNode.get("message").asText();
+        String index = jsonNode.get("message").asText();
+
+        String email = registrationServiceAPI.getStudentEmail(index);
 
         // Check if the given user has a booking for the given resource id
         List<Booking> bookings = bookingService.findBookingsByUsernameAndResourceIdAndDate(
-                username,
+                email,
                 resourceId,
                 LocalDateTime.now()
         );
@@ -125,7 +133,7 @@ public class BookingsController extends AbstractController {
             ) {
                 bookingService.updateBookingStatus(booking, "IN-USE");
                 HashMap<String, Object> responseObject = new HashMap<>();
-                responseObject.put("username", username);
+                responseObject.put("username", index);
                 responseObject.put("startTime", booking.getStartTime().format(DateTimeFormatter.ISO_DATE_TIME));
                 responseObject.put("endTime", booking.getEndTime().format(DateTimeFormatter.ISO_DATE_TIME));
                 responseObject.put("count", booking.getCount());
