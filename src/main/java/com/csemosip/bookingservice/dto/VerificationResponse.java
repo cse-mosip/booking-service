@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class VerificationResponse {
     @JsonProperty
-    private boolean verified;
+    private boolean valid;
 
 }

@@ -2,35 +2,28 @@ package com.csemosip.bookingservice.service.impl;
 
 import com.csemosip.bookingservice.dto.AuthDTO;
 import com.csemosip.bookingservice.dto.AuthenticationResponse;
-import com.csemosip.bookingservice.dto.VerificationResponse;
 import com.csemosip.bookingservice.model.User;
 import com.csemosip.bookingservice.model.utils.Role;
 import com.csemosip.bookingservice.repository.UserRepository;
 import com.csemosip.bookingservice.service.AuthenticationService;
+import com.csemosip.bookingservice.utils.RegistrationServiceAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
-    @Value("${mosip-user-verification-url}")
-    String verificationEndPoint;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private JWTService jwtService;
+
+    @Autowired
+    private RegistrationServiceAPI registrationServiceAPI;
 
     @Override
     public AuthenticationResponse login(AuthDTO authDTO) {
@@ -39,25 +32,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String username = authDTO.getUsername();
             String password = authDTO.getPassword();
 
-            RestTemplate restTemplate = new RestTemplate();
+            boolean isValid = registrationServiceAPI.verifyUserCredentials(username, password);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-            Map<String, Object> map = new HashMap<>();
-            map.put("email", username);
-            map.put("password", password);
-
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, headers);
-
-            VerificationResponse verificationResponse = restTemplate.postForObject(
-                    verificationEndPoint,
-                    entity,
-                    VerificationResponse.class
-            );
-
-            if (verificationResponse.isVerified()) {
+            if (isValid) {
                 User user;
                 try {
                     user = userRepository.findByUsername(authDTO.getUsername()).orElseThrow();
